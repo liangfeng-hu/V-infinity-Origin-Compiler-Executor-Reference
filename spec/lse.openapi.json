@@ -3,26 +3,68 @@
   "info": {
     "title": "V∞ LSE Meta-Axiom API (Reference)",
     "version": "v1.0",
-    "description": "Reference interface for LSE meta-axiom verdict and AuditCard closure. No production proofs."
+    "description": "Reference interface for LSE meta-axiom verdict and BudgetOK. This repository provides semantics and interface shapes only; no production proofs."
   },
   "paths": {
     "/lse/judge": {
       "post": {
         "summary": "Evaluate LSE completeness (Intent × Temporal × Physical) and BudgetOK",
+        "description": "Returns an LSE verdict (i_lse) and completeness booleans. Evidence fields are provided as objects; this reference API does not validate production ZKP/attestation.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/EvidenceRequest" }
+              "schema": { "$ref": "#/components/schemas/EvidenceRequest" },
+              "examples": {
+                "minimal": {
+                  "value": {
+                    "req_id": "req_demo_001",
+                    "intent_audit_group": {
+                      "base_tau": 0.65,
+                      "distillation_risk_score": 0.2,
+                      "extraction_pattern_flags": {
+                        "cross_model_probe": false,
+                        "federated_aggregation": false
+                      },
+                      "device_chain_hash": "DEVCHAIN_OK"
+                    },
+                    "seed_continuity": { "seed_continuity_ok": true },
+                    "physical_proof": { "thermo_proof_ok": true, "attestation_ok": true },
+                    "out_level": "Normal"
+                  }
+                }
+              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "LSE verdict",
+            "description": "LSE verdict response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/LseVerdict" }
+                "schema": { "$ref": "#/components/schemas/LseVerdict" },
+                "examples": {
+                  "pass": {
+                    "value": {
+                      "i_lse": "0",
+                      "budget_ok": true,
+                      "complete_intent": true,
+                      "complete_temporal": true,
+                      "complete_physical": true,
+                      "reason_code": "PASS"
+                    }
+                  },
+                  "fail_budget": {
+                    "value": {
+                      "i_lse": "+inf",
+                      "budget_ok": false,
+                      "complete_intent": true,
+                      "complete_temporal": true,
+                      "complete_physical": true,
+                      "reason_code": "RC_LSE_BUDGET_FAIL"
+                    }
+                  }
+                }
               }
             }
           }
@@ -36,27 +78,58 @@
         "type": "object",
         "required": ["req_id", "intent_audit_group", "seed_continuity", "physical_proof"],
         "properties": {
-          "req_id": { "type": "string" },
-          "intent_audit_group": { "type": "object", "additionalProperties": true },
-          "seed_continuity": { "type": "object", "additionalProperties": true },
-          "physical_proof": { "type": "object", "additionalProperties": true },
+          "req_id": {
+            "type": "string",
+            "description": "Request identifier (caller-supplied)."
+          },
+          "intent_audit_group": {
+            "type": "object",
+            "description": "Evidence fields for Gate90 intent/causal/temporal assessment (extensions allowed only as evidence fields).",
+            "additionalProperties": true
+          },
+          "seed_continuity": {
+            "type": "object",
+            "description": "Temporal/device continuity evidence bundle (reference placeholder).",
+            "additionalProperties": true
+          },
+          "physical_proof": {
+            "type": "object",
+            "description": "Physical work/attestation evidence bundle for Gate91 (reference placeholder).",
+            "additionalProperties": true
+          },
           "out_level": {
             "type": "string",
             "enum": ["Normal", "ShadowOnly", "SafeHold"],
-            "default": "ShadowOnly"
+            "default": "ShadowOnly",
+            "description": "Output policy under Fail-Closed. Not a gate."
           }
         }
       },
       "LseVerdict": {
         "type": "object",
-        "required": ["i_lse", "budget_ok", "complete_intent", "complete_temporal", "complete_physical"],
+        "required": ["i_lse", "budget_ok", "complete_intent", "complete_temporal", "complete_physical", "reason_code"],
         "properties": {
-          "i_lse": { "type": "string", "description": "0 for pass, +inf for fail" },
-          "budget_ok": { "type": "boolean" },
-          "complete_intent": { "type": "boolean" },
-          "complete_temporal": { "type": "boolean" },
-          "complete_physical": { "type": "boolean" },
-          "reason_code": { "type": "string" }
+          "i_lse": {
+            "type": "string",
+            "description": "\"0\" for pass, \"+inf\" for fail."
+          },
+          "budget_ok": {
+            "type": "boolean",
+            "description": "Reference BudgetOK result derived from ledger history."
+          },
+          "complete_intent": {
+            "type": "boolean"
+          },
+          "complete_temporal": {
+            "type": "boolean"
+          },
+          "complete_physical": {
+            "type": "boolean"
+          },
+          "reason_code": {
+            "type": "string",
+            "description": "Stable, replayable explanation bound to evidence (not a gate)."
+          }
         }
       }
     }
