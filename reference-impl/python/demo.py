@@ -4,14 +4,7 @@ import hashlib
 from dataclasses import dataclass, asdict
 from typing import Dict, Any
 
-from reference_impl_import_fix import gate91, lse  # see helper below
-
-
-# -------------------------
-# NOTE (iPhone-friendly import helper)
-# -------------------------
-# GitHub file path uses "reference-impl/python/" which is not a python package name.
-# This demo includes a minimal import shim below to avoid requiring pip packaging.
+from reference_impl_import_fix import gate91, lse
 
 
 def _now_ms() -> int:
@@ -110,7 +103,7 @@ def bus_decide(req_id: str, req: Dict[str, Any], ledger: lse.InMemoryLedger):
             decoy = {
                 "poison_tag": poison_tag,
                 "decoy_hash": _sha("DECOY:" + poison_tag),
-                "decoy_payload": f"[HIGH_FIDELITY_OUTPUT_BUT_POISONED:{poison_tag}]"
+                "decoy_payload": f"[HIGH_FIDELITY_OUTPUT_BUT_POISONED:{poison_tag}]",
             }
             ledger.append(lse.LedgerEvent(req_id=req_id, event="DISTILL_ALERT", data=decoy))
 
@@ -121,7 +114,7 @@ def bus_decide(req_id: str, req: Dict[str, Any], ledger: lse.InMemoryLedger):
             "world_writeback": 0,
             "out_level": out_level,
             "reason_code": reason_code,
-            "decoy": decoy
+            "decoy": decoy,
         }
         ledger.append(lse.LedgerEvent(req_id=req_id, event="FAIL_CLOSED", data={"reason": reason_code}))
         i_flow = "+inf"
@@ -147,7 +140,7 @@ def bus_decide(req_id: str, req: Dict[str, Any], ledger: lse.InMemoryLedger):
         out_level=out_level if i_flow != "0" else "Normal",
         reason_code=reason_code,
         evidence_keys=evidence_keys,
-        intent_audit_group=req.get("intent_audit_group", {})
+        intent_audit_group=req.get("intent_audit_group", {}),
     )
 
     return payload, audit
@@ -160,11 +153,11 @@ def scenario_ok():
             "base_tau": 0.65,
             "distillation_risk_score": 0.10,
             "extraction_pattern_flags": {"cross_model_probe": False, "federated_aggregation": False},
-            "device_chain_hash": "DEVCHAIN_OK"
+            "device_chain_hash": "DEVCHAIN_OK",
         },
         "seed_continuity": {"seed_continuity_ok": True},
         "physical_proof": {"thermo_proof_ok": True, "attestation_ok": True},
-        "out_level": "Normal"
+        "out_level": "Normal",
     }
 
 
@@ -175,11 +168,11 @@ def scenario_distill_probe():
             "base_tau": 0.65,
             "distillation_risk_score": 0.92,
             "extraction_pattern_flags": {"cross_model_probe": False, "federated_aggregation": False},
-            "device_chain_hash": "DEVCHAIN_OK"
+            "device_chain_hash": "DEVCHAIN_OK",
         },
         "seed_continuity": {"seed_continuity_ok": True},
         "physical_proof": {"thermo_proof_ok": True, "attestation_ok": True},
-        "out_level": "ShadowOnly"
+        "out_level": "ShadowOnly",
     }
 
 
@@ -190,11 +183,11 @@ def scenario_thermo_forgery():
             "base_tau": 0.65,
             "distillation_risk_score": 0.20,
             "extraction_pattern_flags": {"cross_model_probe": False, "federated_aggregation": False},
-            "device_chain_hash": "DEVCHAIN_OK"
+            "device_chain_hash": "DEVCHAIN_OK",
         },
         "seed_continuity": {"seed_continuity_ok": True},
         "physical_proof": {"thermo_proof_ok": False, "attestation_ok": False},
-        "out_level": "ShadowOnly"
+        "out_level": "ShadowOnly",
     }
 
 
@@ -205,11 +198,11 @@ def scenario_device_hop_attack():
             "base_tau": 0.65,
             "distillation_risk_score": 0.20,
             "extraction_pattern_flags": {"cross_model_probe": False, "federated_aggregation": False},
-            "device_chain_hash": ""
+            "device_chain_hash": "",
         },
         "seed_continuity": {"seed_continuity_ok": True},
         "physical_proof": {"thermo_proof_ok": True, "attestation_ok": True},
-        "out_level": "ShadowOnly"
+        "out_level": "ShadowOnly",
     }
 
 
