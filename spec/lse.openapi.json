@@ -12,14 +12,18 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceRequest" } }
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EvidenceRequest" }
+            }
           }
         },
         "responses": {
           "200": {
             "description": "LSE verdict",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/LseVerdict" } }
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LseVerdict" }
+              }
             }
           }
         }
@@ -36,7 +40,11 @@
           "intent_audit_group": { "type": "object", "additionalProperties": true },
           "seed_continuity": { "type": "object", "additionalProperties": true },
           "physical_proof": { "type": "object", "additionalProperties": true },
-          "out_level": { "type": "string", "enum": ["Normal", "ShadowOnly", "SafeHold"], "default": "ShadowOnly" }
+          "out_level": {
+            "type": "string",
+            "enum": ["Normal", "ShadowOnly", "SafeHold"],
+            "default": "ShadowOnly"
+          }
         }
       },
       "LseVerdict": {
