@@ -42,7 +42,7 @@ class InMemoryLedger:
 
 @dataclass
 class LseVerdict:
-    i_lse: str               # "0" or "+inf"
+    i_lse: str  # "0" or "+inf"
     budget_ok: bool
     complete_intent: bool
     complete_temporal: bool
