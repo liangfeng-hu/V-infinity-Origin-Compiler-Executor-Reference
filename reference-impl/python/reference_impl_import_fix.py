@@ -1,5 +1,5 @@
 """
-Import shim to allow running demo.py directly from the repository layout.
+Import shim to allow running demo.py directly from repository layout.
 
 Layout:
   reference-impl/python/gate91_reference.py
