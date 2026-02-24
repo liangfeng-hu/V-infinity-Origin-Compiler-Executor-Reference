@@ -3,26 +3,67 @@
   "info": {
     "title": "V∞ Gate91 I_ENTROPY_CLONE API (Reference)",
     "version": "v1.0",
-    "description": "Reference interface for Gate91 physical decidability. Mock placeholders only."
+    "description": "Reference interface for Gate91 physical decidability (I_ENTROPY_CLONE). Mock placeholders only; no production attestation chains or ZKP keys."
   },
   "paths": {
     "/gate91/evaluate": {
       "post": {
-        "summary": "Evaluate physical proof / attestation (mock placeholders)",
+        "summary": "Evaluate physical proof / attestation (reference placeholders)",
+        "description": "Returns a Gate91 verdict i_91 and stable risk code. This reference API does not implement real attestation validation.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/Gate91Request" }
+              "schema": { "$ref": "#/components/schemas/Gate91Request" },
+              "examples": {
+                "pass": {
+                  "value": {
+                    "req_id": "req_demo_002",
+                    "physical_proof": {
+                      "thermo_proof_ok": true,
+                      "attestation_ok": true,
+                      "entropy_clone_risk_code": "OK"
+                    }
+                  }
+                },
+                "fail": {
+                  "value": {
+                    "req_id": "req_demo_003",
+                    "physical_proof": {
+                      "thermo_proof_ok": false,
+                      "attestation_ok": false,
+                      "entropy_clone_risk_code": "THERMO_OR_ATTEST_FAIL"
+                    }
+                  }
+                }
+              }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Gate91 verdict",
+            "description": "Gate91 verdict response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Gate91Verdict" }
+                "schema": { "$ref": "#/components/schemas/Gate91Verdict" },
+                "examples": {
+                  "pass": {
+                    "value": {
+                      "i_91": 0,
+                      "thermo_proof_ok": true,
+                      "attestation_ok": true,
+                      "entropy_clone_risk_code": "OK"
+                    }
+                  },
+                  "fail": {
+                    "value": {
+                      "i_91": 1,
+                      "thermo_proof_ok": false,
+                      "attestation_ok": false,
+                      "entropy_clone_risk_code": "THERMO_OR_ATTEST_FAIL"
+                    }
+                  }
+                }
               }
             }
           }
@@ -36,14 +77,20 @@
         "type": "object",
         "required": ["req_id", "physical_proof"],
         "properties": {
-          "req_id": { "type": "string" },
+          "req_id": {
+            "type": "string",
+            "description": "Request identifier (caller-supplied)."
+          },
           "physical_proof": {
             "type": "object",
             "required": ["thermo_proof_ok", "attestation_ok"],
             "properties": {
               "thermo_proof_ok": { "type": "boolean" },
               "attestation_ok": { "type": "boolean" },
-              "entropy_clone_risk_code": { "type": "string" }
+              "entropy_clone_risk_code": {
+                "type": "string",
+                "description": "Stable reason code bound to evidence."
+              }
             },
             "additionalProperties": true
           }
@@ -53,7 +100,11 @@
         "type": "object",
         "required": ["i_91", "thermo_proof_ok", "attestation_ok", "entropy_clone_risk_code"],
         "properties": {
-          "i_91": { "type": "integer", "enum": [0, 1] },
+          "i_91": {
+            "type": "integer",
+            "enum": [0, 1],
+            "description": "0 pass, 1 fail"
+          },
           "thermo_proof_ok": { "type": "boolean" },
           "attestation_ok": { "type": "boolean" },
           "entropy_clone_risk_code": { "type": "string" }
