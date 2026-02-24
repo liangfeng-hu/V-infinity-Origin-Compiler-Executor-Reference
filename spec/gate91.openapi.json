@@ -1,28 +1,28 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "V∞ LSE Meta-Axiom API (Reference)",
+    "title": "V∞ Gate91 I_ENTROPY_CLONE API (Reference)",
     "version": "v1.0",
-    "description": "Reference interface for LSE meta-axiom verdict and AuditCard closure. No production proofs."
+    "description": "Reference interface for Gate91 physical decidability. Mock placeholders only."
   },
   "paths": {
-    "/lse/judge": {
+    "/gate91/evaluate": {
       "post": {
-        "summary": "Evaluate LSE completeness (Intent × Temporal × Physical) and BudgetOK",
+        "summary": "Evaluate physical proof / attestation (mock placeholders)",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/EvidenceRequest" }
+              "schema": { "$ref": "#/components/schemas/Gate91Request" }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "LSE verdict",
+            "description": "Gate91 verdict",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/LseVerdict" }
+                "schema": { "$ref": "#/components/schemas/Gate91Verdict" }
               }
             }
           }
@@ -32,31 +32,31 @@
   },
   "components": {
     "schemas": {
-      "EvidenceRequest": {
+      "Gate91Request": {
         "type": "object",
-        "required": ["req_id", "intent_audit_group", "seed_continuity", "physical_proof"],
+        "required": ["req_id", "physical_proof"],
         "properties": {
           "req_id": { "type": "string" },
-          "intent_audit_group": { "type": "object", "additionalProperties": true },
-          "seed_continuity": { "type": "object", "additionalProperties": true },
-          "physical_proof": { "type": "object", "additionalProperties": true },
-          "out_level": {
-            "type": "string",
-            "enum": ["Normal", "ShadowOnly", "SafeHold"],
-            "default": "ShadowOnly"
+          "physical_proof": {
+            "type": "object",
+            "required": ["thermo_proof_ok", "attestation_ok"],
+            "properties": {
+              "thermo_proof_ok": { "type": "boolean" },
+              "attestation_ok": { "type": "boolean" },
+              "entropy_clone_risk_code": { "type": "string" }
+            },
+            "additionalProperties": true
           }
         }
       },
-      "LseVerdict": {
+      "Gate91Verdict": {
         "type": "object",
-        "required": ["i_lse", "budget_ok", "complete_intent", "complete_temporal", "complete_physical"],
+        "required": ["i_91", "thermo_proof_ok", "attestation_ok", "entropy_clone_risk_code"],
         "properties": {
-          "i_lse": { "type": "string", "description": "0 for pass, +inf for fail" },
-          "budget_ok": { "type": "boolean" },
-          "complete_intent": { "type": "boolean" },
-          "complete_temporal": { "type": "boolean" },
-          "complete_physical": { "type": "boolean" },
-          "reason_code": { "type": "string" }
+          "i_91": { "type": "integer", "enum": [0, 1] },
+          "thermo_proof_ok": { "type": "boolean" },
+          "attestation_ok": { "type": "boolean" },
+          "entropy_clone_risk_code": { "type": "string" }
         }
       }
     }
