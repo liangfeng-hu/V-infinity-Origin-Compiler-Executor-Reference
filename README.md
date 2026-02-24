@@ -32,6 +32,12 @@ If not satisfied → **Fail-Closed**.
 
 ---
 
+## 📚 Docs Index & Decks
+
+- [Docs Index](./docs/index.md)
+- [10-page deck (EN)](./docs/v-infinity-10page-deck.en.md)
+- [Verification report](./docs/verification-report.md)
+
 ## Quick Start (30 seconds)
 
 ```bash
