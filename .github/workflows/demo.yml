@@ -23,34 +23,24 @@ jobs:
         run: |
           python reference-impl/python/demo.py | tee demo_output.txt
 
-      - name: Sanity check outputs (AuditCard + 4 cases)
+      - name: Sanity check outputs (AuditCard + 4 cases + GateVectorLen=91)
         run: |
           python - <<'PY'
           import re, sys, pathlib
-          p = pathlib.Path("demo_output.txt")
-          s = p.read_text(encoding="utf-8", errors="ignore")
+          s = pathlib.Path("demo_output.txt").read_text(encoding="utf-8", errors="ignore")
 
-          # Must contain 4 cases
-          required_cases = ["CASE: A_OK", "CASE: B_DISTILL", "CASE: C_THERMO_FORGERY", "CASE: D_DEVICE_HOP"]
-          for c in required_cases:
+          for c in ["CASE: A_OK", "CASE: B_DISTILL", "CASE: C_THERMO_FORGERY", "CASE: D_DEVICE_HOP"]:
             if c not in s:
-              print("Missing case:", c)
-              sys.exit(1)
+              print("Missing case:", c); sys.exit(1)
 
-          # Must print AUDIT_CARD blocks
           if "AUDIT_CARD:" not in s:
-            print("Missing AUDIT_CARD")
-            sys.exit(1)
+            print("Missing AUDIT_CARD"); sys.exit(1)
 
-          # Must show Fail-Closed behavior at least once
-          if "Fail-Closed" not in s and "\"result\": \"BLOCK\"" not in s:
-            print("Missing Fail-Closed / BLOCK evidence")
-            sys.exit(1)
+          if "\"result\": \"BLOCK\"" not in s:
+            print("Missing BLOCK evidence"); sys.exit(1)
 
-          # GateVectorLen should appear as 91 inside audit output (either key or value)
-          if re.search(r'"gatevector_len"\s*:\s*91', s) is None:
-            print("Missing gatevector_len=91 in audit output")
-            sys.exit(1)
+          if re.search(r'"gatevector_len"\\s*:\\s*91', s) is None:
+            print("Missing gatevector_len=91"); sys.exit(1)
 
           print("CI checks passed.")
           PY
