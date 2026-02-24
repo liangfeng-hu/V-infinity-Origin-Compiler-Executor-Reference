@@ -1,4 +1,4 @@
-# VC 10-Page Deck (EN) — YFCore PoAIW Gate 91 + Law (I_LSE)
+# VC 10-Page Deck (EN) — YFCore PoAIW (Gate 91 + Law)
 **Version/Date:** DistillGuard-Core v1.0 — 2026-02-24  
 **Company:** YFCore Technology Limited  
 **One-liner:** Make industrial-scale model distillation **economically non-viable** by enforcing **hardware-rooted proof of AI work** and **fail-closed output sovereignty** at runtime.
@@ -7,8 +7,8 @@
 
 ## Slide 01 — Title
 - **PoAIW: Physical Proof of AI Work**
-- **Subtitle:** Gate 91 (Entropy Non-Clonability) + LSE (Law)  
-  — elevate “model distillation” from a software cat-and-mouse game to **physically non-forgeable** protection
+- **Subtitle:** Gate 91 (Entropy Non-Clonability) + **Law (I_LSE)**  
+  — elevate “model distillation” from a software cat-and-mouse game to **physically non-forgeable** output sovereignty
 - **Company:** YFCore Technology Limited
 - **Version/Date:** DistillGuard-Core v1.0 — 2026-02-24
 
@@ -51,7 +51,7 @@
 
 ---
 
-## Slide 05 — Minimal Deliverable: Gate 91 + LSE (Law)
+## Slide 05 — Minimal Deliverable: Gate 91 + Law (I_LSE)
 ### Gate 91 — `I_ENTROPY_CLONE` (Entropy Non-Clonability Hard Gate)
 - High-assurance output is allowed only if:
   - ZK/verification passes
@@ -59,7 +59,7 @@
   - thermodynamic/energy gates pass
 - Otherwise: **Fail-Closed** (downgrade to ShadowOnly / zero writeback)
 
-### LSE — `I_LSE` (Law, Meta-Axiom / “Gate 0”)
+### Law — `I_LSE` (Meta-law / “Gate 0”)
 - High-fidelity output is allowed only if **Intent × Temporal continuity × Physical proof** are simultaneously satisfied.
 - Self-protecting clauses:
   - verifier trust
@@ -98,7 +98,7 @@
   - SDK/gateway licensing (per node / per usage / per assurance tier)
   - cloud/hardware co-sell (attestation/TEE-linked premium share)
   - high-assurance integration services (audit, compliance, red-teaming, performance)
-- **Upsell path:** Start with Gate 91 + `I_LSE` (Law), then expand into the full Trinity (add Gate 90: intent/extraction risk + temporal continuity).
+- **Upsell path:** Start with Gate 91 + Law (`I_LSE`), then expand into the full Trinity (add Gate 90: intent/extraction risk + temporal continuity).
 
 ---
 
