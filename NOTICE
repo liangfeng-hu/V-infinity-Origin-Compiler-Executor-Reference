@@ -1,12 +1,18 @@
-V∞-Origin-Compiler-Executor-Reference
+```txt
+V-infinity-Origin-Compiler-Executor-Reference
 Copyright (c) 2026 YFCore Technology Limited
 
 This repository is a reference implementation for constitutional semantics and interfaces.
-It intentionally does NOT include production ZKP circuits, production hardware attestation chains,
-or any operational keys. It is provided for research, review, and interface mocking only.
+
+It intentionally does NOT include:
+- production ZKP circuits,
+- real π_thermo verification keys,
+- real hardware attestation chains,
+- real π_seed generators,
+- any operational keys.
 
 Constitutional boundary (sealed):
 - GateVectorLen is permanently 91. No new gates are allowed.
 - Fail-Closed semantics must never be weakened.
-- CommitUnique is the only needle-eye for any world writeback (ΔΩ_t≠0).
+- CommitUnique is the only needle-eye for any world writeback (ΔΩ≠0).
 - Extensions may only add evidence fields inside Gate90.intent_audit_group or AuditCard_t.
