@@ -49,3 +49,7 @@ jobs:
 
           print("CI checks passed.")
           PY
+
+      - name: Run minimal_test.py
+        run: |
+          python examples/minimal_test.py
