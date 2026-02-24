@@ -56,7 +56,7 @@ def budget_ok(ledger: InMemoryLedger) -> bool:
 
 
 def complete(intent_ok: bool, temporal_ok: bool, physical_ok: bool) -> bool:
-    return intent_ok and temporal_ok and physical_ok
+    return bool(intent_ok) and bool(temporal_ok) and bool(physical_ok)
 
 
 def evaluate_lse(ledger: InMemoryLedger, intent_ok: bool, temporal_ok: bool, physical_ok: bool) -> LseVerdict:
