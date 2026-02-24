@@ -1,11 +1,11 @@
 """
 Import shim to allow running demo.py directly from repository layout.
 
-GitHub layout:
+Layout:
   reference-impl/python/gate91_reference.py
   reference-impl/python/lse_reference.py
 
-This file exposes:
+Exports:
   gate91, lse
 """
 
