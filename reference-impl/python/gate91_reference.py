@@ -1,7 +1,7 @@
 """
 Gate91 Reference (I_ENTROPY_CLONE)
 
-This is a reference-only evaluator that uses mock placeholders:
+Reference-only evaluator using mock placeholders:
 - thermo_proof_ok
 - attestation_ok
 
