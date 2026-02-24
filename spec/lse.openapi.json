@@ -1,0 +1,56 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "V∞ LSE Meta-Axiom API (Reference)",
+    "version": "v1.0",
+    "description": "Reference interface for LSE meta-axiom verdict and AuditCard closure. No production proofs."
+  },
+  "paths": {
+    "/lse/judge": {
+      "post": {
+        "summary": "Evaluate LSE completeness (Intent × Temporal × Physical) and BudgetOK",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/EvidenceRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "LSE verdict",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/LseVerdict" } }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EvidenceRequest": {
+        "type": "object",
+        "required": ["req_id", "intent_audit_group", "seed_continuity", "physical_proof"],
+        "properties": {
+          "req_id": { "type": "string" },
+          "intent_audit_group": { "type": "object", "additionalProperties": true },
+          "seed_continuity": { "type": "object", "additionalProperties": true },
+          "physical_proof": { "type": "object", "additionalProperties": true },
+          "out_level": { "type": "string", "enum": ["Normal", "ShadowOnly", "SafeHold"], "default": "ShadowOnly" }
+        }
+      },
+      "LseVerdict": {
+        "type": "object",
+        "required": ["i_lse", "budget_ok", "complete_intent", "complete_temporal", "complete_physical"],
+        "properties": {
+          "i_lse": { "type": "string", "description": "0 for pass, +inf for fail" },
+          "budget_ok": { "type": "boolean" },
+          "complete_intent": { "type": "boolean" },
+          "complete_temporal": { "type": "boolean" },
+          "complete_physical": { "type": "boolean" },
+          "reason_code": { "type": "string" }
+        }
+      }
+    }
+  }
+}
