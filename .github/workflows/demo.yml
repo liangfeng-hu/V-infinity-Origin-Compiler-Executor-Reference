@@ -29,18 +29,23 @@ jobs:
           import re, sys, pathlib
           s = pathlib.Path("demo_output.txt").read_text(encoding="utf-8", errors="ignore")
 
-          for c in ["CASE: A_OK", "CASE: B_DISTILL", "CASE: C_THERMO_FORGERY", "CASE: D_DEVICE_HOP"]:
-            if c not in s:
-              print("Missing case:", c); sys.exit(1)
+          required = ["CASE: A_OK", "CASE: B_DISTILL", "CASE: C_THERMO_FORGERY", "CASE: D_DEVICE_HOP"]
+          for c in required:
+              if c not in s:
+                  print("Missing case:", c)
+                  sys.exit(1)
 
           if "AUDIT_CARD:" not in s:
-            print("Missing AUDIT_CARD"); sys.exit(1)
+              print("Missing AUDIT_CARD")
+              sys.exit(1)
 
           if "\"result\": \"BLOCK\"" not in s:
-            print("Missing BLOCK evidence"); sys.exit(1)
+              print("Missing BLOCK evidence")
+              sys.exit(1)
 
-          if re.search(r'"gatevector_len"\\s*:\\s*91', s) is None:
-            print("Missing gatevector_len=91"); sys.exit(1)
+          if re.search(r'"gatevector_len"\s*:\s*91', s) is None:
+              print("Missing gatevector_len=91")
+              sys.exit(1)
 
           print("CI checks passed.")
           PY
