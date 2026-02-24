@@ -47,7 +47,6 @@ def gate90_awake_score(req: Dict[str, Any], ledger: lse.InMemoryLedger) -> Dict[
     flags = ig.get("extraction_pattern_flags", {})
     device_chain_hash = ig.get("device_chain_hash", "")
 
-    # Reference: device hop scenario enforces continuity evidence
     if ig.get("scenario") == "DEVICE_HOP" and not device_chain_hash:
         risk_score = max(risk_score, 0.90)
 
